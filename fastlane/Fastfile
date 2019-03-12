@@ -14,7 +14,7 @@ platform :ios do
 
 lane :generic_debug do
  
-	 sync_code_signing(type: "development", app_identifier:["com.FastlaneGeneric.dni"])
+	 sync_code_signing(type: "development")
   	 #build_app(scheme: "fastlaneiconapp")
 
 			gym(
