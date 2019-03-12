@@ -1,0 +1,39 @@
+
+default_platform(:ios)
+
+platform :ios do
+
+  desc "This Lane Will Upload IPA to App Store"
+  lane :generic_release do
+
+  	sync_code_signing(type: "appstore")
+  	build_app(scheme: "fastlaneiconapp")
+  	deliver(submit_for_review: false,force: true)
+
+  end
+
+lane :generic_debug do
+ 
+	 sync_code_signing(type: "development", app_identifier:["com.FastlaneGeneric.dni"])
+  	 #build_app(scheme: "fastlaneiconapp")
+
+			gym(
+			    scheme: ENV['SCHEME'],  
+			    export_method:"development", 
+			    export_xcargs: "-allowProvisioningUpdates",
+			    output_directory: ENV['IPA_PATH'],
+			    output_name: ENV['OUTPUT_NAME'],
+			    include_bitcode: false,
+			     export_options: {
+			        uploadBitcode: false,
+			        uploadSymbols: false,
+			        compileBitcode: false,
+			        provisioningProfiles: {
+			            ENV['BUNDLE_IDENTIFIER'] => ENV['PROVISION_NAME']
+			          },
+			            "signingStyle": ENV['SIGNING_STYLE']
+			          }
+			)
+
+  end
+end
